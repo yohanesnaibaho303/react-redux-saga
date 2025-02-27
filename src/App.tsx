@@ -1,18 +1,18 @@
 // src/App.tsx
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPostsRequestasd } from "./slice";
-import store, { RootState } from "./store";
-import { Post } from "./slice";
+import { RootState } from "./store";
+import { Post } from "./features/posts/postSlice";
 import { decrement, increment, reset } from "./slicecounter";
+import PostComponent from "./components/PostComponent";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { posts, loading, error } = useSelector(
-    (state: RootState) => state.InquiryAll
-  );
+  // const { posts, loading, error } = useSelector(
+  //   (state: RootState) => state.InquiryAll
+  // );
 
-  const { value, data } = useSelector((state: RootState) => state.Counter);
+  const { value, data } = useSelector((state: RootState) => state.counter);
 
   const [tab, setTab] = useState("");
 
@@ -27,30 +27,17 @@ const App: React.FC = () => {
       <button onClick={() => setTab("fetch")}>Fetch</button>
       <button onClick={() => setTab("counter")}>Counter</button>
       <div>
-        {tab == "fetch" && (
-          <>
-            <h1>Redux-Saga API Fetch</h1>
-            {loading && <p>Loading...</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-            <button onClick={() => dispatch(fetchPostsRequestasd())}>
-              Fetch API
-            </button>
-            <ul>
-              {posts.map((post: Post) => (
-                <li key={post.id}>{post.title}</li>
-              ))}
-            </ul>
-          </>
-        )}
+        {tab == "fetch" && <PostComponent />}
         {tab == "counter" && (
           <>
             <h1>Counter {value}</h1>
-            <button onClick={() => dispatch(increment())}>+</button>
+            <button onClick={() => dispatch(increment())} disabled={value == 10}>+</button>
             <button onClick={() => dispatch(decrement())} disabled={value == 0}>
               -
             </button>
-            <button onClick={() => dispatch(reset())}>reset</button>
+            <button onClick={() => dispatch(reset())} >
+              reset
+            </button>
           </>
         )}
       </div>

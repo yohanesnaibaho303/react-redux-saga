@@ -1,15 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-import { rootSaga } from "./sagas";
-import postsSlice from "./slice";
-import counterReducer from "./slicecounter";
+import { rootSaga } from "./sagas/rootSaga";
+import postsSlice from "./features/posts/postSlice";
+import counterSlice from "./slicecounter";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: {
-    InquiryAll: postsSlice,
-    Counter: counterReducer,
+    posts: postsSlice,
+    counter: counterSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
